@@ -2,4 +2,4 @@
 
 ## Unboxing BlindBox
 
-###### This job will look for unboxed BlindBox in SalesProvider contract and check the unbox time, if the unbox time is due the job will call generateRandomNumber function to get a random number from Chainlink
+###### This job will look for BlindBox which is not been unboxed in SalesProvider contract and check the unbox time, if the unbox time is due the job will call generateRandomNumber function to get a random number from Chainlink
