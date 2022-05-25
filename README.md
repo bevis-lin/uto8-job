@@ -3,3 +3,6 @@
 ## Unboxing BlindBox
 
 ###### This job will look for BlindBox which has not been unboxed in SalesProvider contract and check the unbox time, if the unbox time is due the job will call generateRandomNumber function to get a random number from Chainlink
+
+docker build -f dockerfiles/Unbox.Dockerfile -t unbox
+docker run --env-file Unbox-VAR.env unbox
