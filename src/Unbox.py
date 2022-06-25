@@ -44,31 +44,6 @@ if not isTimeToUnbox:
 contract_owner_address = os.environ['Contract_Owner_Address']
 nonce = w3.eth.get_transaction_count(contract_owner_address)
 
-#get blindbox total minted quantity from Piamon contract
-totalMint = piamonContract_instance.functions.blindBoxTotalMint(blindBoxId).call()
-
-print("BlindBox total minted quantity: " + str(totalMint))
-
-#rabbit.QueueDeclare('chain.v1.unblind.piya')
-
-#rabbit.QueueDeclare('hello')
-
-
-
-for i in range(totalMint):
-  message = {
-    "wallet_address": "0x37100698B013ce6097453dEf91986EabA6570Ea2",
-    "nft_id": str(i+1),
-    "BlindBoxID": 0,
-    "BlindBoxListID": str(i+1),
-    "publish_time": str(datetime.now().timestamp())
-  }
-  print(json.dumps(message))
-  rabbit.Publish('chain.v1.unblind.piya', json.dumps(message))
-  #rabbit.Publish('hello', json.dumps(message))
-
-sys.exit()
-
 # Build a transaction that invokes SalesProvider contract's function called generateRandomNumber
 salesprovider_txn = salesProviderContract_instnace.functions.getRandomNumberForBlindBox(blindBoxId).buildTransaction({
   'chainId': 80001,
@@ -81,22 +56,25 @@ salesprovider_txn = salesProviderContract_instnace.functions.getRandomNumberForB
 private_key = os.environ['Contract_Owner_Key']
 signed_txn = w3.eth.account.sign_transaction(salesprovider_txn, private_key=private_key)
 print(signed_txn.hash)
-w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
 print(w3.toHex(w3.keccak(signed_txn.rawTransaction)))
+tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+print(tx_receipt, file=sys.stdout)
+print(type(tx_receipt))
 
-receipt = None
+# receipt = None
 
-while receipt == None:
-  try:
-    receipt = w3.eth.get_transaction_receipt(w3.toHex(w3.keccak(signed_txn.rawTransaction)))
-  except Exception as e:
-    #<class 'web3.exceptions.TransactionNotFound'>
-    print(type(e))
-    print('Unknow error', e)
-    time.sleep(3)
+# while receipt == None:
+#   try:
+#     receipt = w3.eth.get_transaction_receipt(w3.toHex(w3.keccak(signed_txn.rawTransaction)))
+#   except Exception as e:
+#     #<class 'web3.exceptions.TransactionNotFound'>
+#     print(type(e))
+#     print('Unknow error', e)
+#     time.sleep(3)
 
-print(receipt)
-if receipt.status==1:
+# print(receipt)
+if tx_receipt.status==1:
   print('Transaction complete.')
   #send queue
 
