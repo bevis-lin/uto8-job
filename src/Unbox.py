@@ -22,8 +22,10 @@ f.close()
 salesProviderContract_instnace = w3.eth.contract(address=salesProviderAddress, abi=salesProviderABI)
 piamonContract_instance = w3.eth.contract(address=piamonAddress, abi=piamonProviderABI)
 
+blindBoxId = int(os.environ['BlindBox_Id'])
+
 #get BlindBox definition
-blindBox = salesProviderContract_instnace.functions.blindBoxes(0).call()
+blindBox = salesProviderContract_instnace.functions.blindBoxes(blindBoxId).call()
 
 #unboxing time
 print(blindBox[10])
@@ -33,10 +35,14 @@ print("dt_object = ", dt_object)
 
 print(dt_object<datetime.now())
 
+isTimeToUnbox = dt_object<datetime.now()
+
+if not isTimeToUnbox:
+  print("Unbox time is yet to come")
+  sys.exit()
+
 contract_owner_address = os.environ['Contract_Owner_Address']
 nonce = w3.eth.get_transaction_count(contract_owner_address)
-
-blindBoxId = int(os.environ['BlindBox_Id'])
 
 #get blindbox total minted quantity from Piamon contract
 totalMint = piamonContract_instance.functions.blindBoxTotalMint(blindBoxId).call()
