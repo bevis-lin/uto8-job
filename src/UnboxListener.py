@@ -36,6 +36,8 @@ def handle_event(event):
     totalMint = piamonContract_instance.functions.blindBoxTotalMint(blindoxId).call()
     print("BlindBox total minted quantity: " + str(totalMint))
 
+    #rabbit.QueueDeclare('chain.v1.unblind.piya')
+
     for i in range(totalMint):
         #compose nftId
         nftId = i + blindBox[2]
