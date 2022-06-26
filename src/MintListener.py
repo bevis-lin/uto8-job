@@ -12,9 +12,9 @@ piamonAddress = os.environ['Piamon_Contract_Address']
 # absolute path to this file
 FILE_DIR = os.path.dirname(os.path.abspath(__file__))
 # absolute path to this file's root directory
-PARENT_DIR = os.path.join(FILE_DIR, os.pardir)
+#PARENT_DIR = os.path.join(FILE_DIR, os.pardir)
 
-f = open(PARENT_DIR + '/abi/Piamon.json')
+f = open(FILE_DIR + '/abi/Piamon.json')
 piamonProviderABI = json.load(f)
 f.close()
 
