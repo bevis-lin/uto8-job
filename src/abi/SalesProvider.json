@@ -1,6 +1,12 @@
 [
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_operatorAddress",
+				"type": "address"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
@@ -24,6 +30,25 @@
 		"type": "event"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "blindboxId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "vrfNumber",
+				"type": "uint256"
+			}
+		],
+		"name": "UnboxLog",
+		"type": "event"
+	},
+	{
 		"inputs": [
 			{
 				"components": [
@@ -38,9 +63,9 @@
 						"type": "string"
 					},
 					{
-						"internalType": "string",
-						"name": "randomBoxUrl",
-						"type": "string"
+						"internalType": "uint256",
+						"name": "tokenIdStart",
+						"type": "uint256"
 					},
 					{
 						"internalType": "string",
@@ -101,10 +126,45 @@
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "_blindBoxId",
+				"type": "uint256"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "blindBoxId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "purchaseLimit",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct SalesProvider.BlindBoxSetting",
+				"name": "_blindBoxSetting",
+				"type": "tuple"
+			}
+		],
+		"name": "addBlindBoxSetting",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"components": [
 					{
 						"internalType": "uint256",
 						"name": "templateId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "tokenIdStart",
 						"type": "uint256"
 					},
 					{
@@ -174,6 +234,30 @@
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			}
+		],
+		"name": "blindBoxSettings",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "blindBoxId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "purchaseLimit",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
@@ -223,9 +307,9 @@
 				"type": "string"
 			},
 			{
-				"internalType": "string",
-				"name": "randomBoxUrl",
-				"type": "string"
+				"internalType": "uint256",
+				"name": "tokenIdStart",
+				"type": "uint256"
 			},
 			{
 				"internalType": "string",
@@ -271,6 +355,54 @@
 				"internalType": "uint256",
 				"name": "vrfNumber",
 				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "blindboxUserMintQuantity",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_blindBoxId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "checkIfUserUnderBlindBoxMintLimit",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -429,6 +561,25 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
+				"name": "_blindBoxId",
+				"type": "uint256"
+			}
+		],
+		"name": "getBlindBoxTokenIdStart",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenIdStart",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
 				"name": "blindBoxId",
 				"type": "uint256"
 			}
@@ -499,12 +650,41 @@
 			},
 			{
 				"internalType": "uint256",
+				"name": "tokenIdStart",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
 				"name": "price",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
 				"name": "totalQuantity",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_blindBoxId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "getUserBlindboxTotalMintedCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "totlMintedCount",
 				"type": "uint256"
 			}
 		],
@@ -541,6 +721,43 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_blindBoxId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "increaseUserBlindboxTotalMintedCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "totalMintedCount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "operator",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "owner",
 		"outputs": [
@@ -566,6 +783,11 @@
 			{
 				"internalType": "uint256",
 				"name": "templateId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenIdStart",
 				"type": "uint256"
 			},
 			{
