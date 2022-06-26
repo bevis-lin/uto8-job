@@ -9,7 +9,12 @@ import helper.RabbitMQHelper as rabbit
 w3 = Web3(Web3.HTTPProvider(os.environ['Web3_HTTP_Provider']))
 piamonAddress = os.environ['Piamon_Contract_Address']
 
-f = open('app/src/abi/Piamon.json')
+# absolute path to this file
+FILE_DIR = os.path.dirname(os.path.abspath(__file__))
+# absolute path to this file's root directory
+PARENT_DIR = os.path.join(FILE_DIR, os.pardir)
+
+f = open(PARENT_DIR + '/abi/Piamon.json')
 piamonProviderABI = json.load(f)
 f.close()
 
