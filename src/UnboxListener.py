@@ -9,13 +9,15 @@ import helper.RabbitMQHelper as rabbit
 w3 = Web3(Web3.HTTPProvider(os.environ['Web3_HTTP_Provider']))
 salesProviderAddress = os.environ['SalesProvider_Contract_Address']
 
-f = open('./abi/SalesProvider.json')
+FILE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+f = open(FILE_DIR + '/abi/SalesProvider.json')
 salesProviderProviderABI = json.load(f)
 f.close()
 
 piamonAddress = os.environ['Piamon_Contract_Address']
 
-f = open('./abi/Piamon.json')
+f = open(FILE_DIR + '/abi/Piamon.json')
 piamonProviderABI = json.load(f)
 f.close()
 
