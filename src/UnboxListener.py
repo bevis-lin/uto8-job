@@ -41,17 +41,19 @@ def handle_event(event):
     for i in range(totalMint):
         #compose nftId
         nftId = i + blindBox[2]
-        nftOwnerAddrress = piamonContract_instance.functions.ownerOf(nftId).call()
-        message = {
-            "wallet_address": nftOwnerAddrress,
-            "nft_id": str(nftId),
-            "BlindBoxID": str(nftId)[:6],
-            "BlindBoxListID": str(nftId),
-            "publish_time": str(datetime.now().timestamp())
-        }
-        print(json.dumps(message))
-        rabbit.Publish('chain.v1.unblind.piya', json.dumps(message))
-       
+        try:
+            nftOwnerAddrress = piamonContract_instance.functions.ownerOf(nftId).call()
+            message = {
+                "wallet_address": nftOwnerAddrress,
+                "nft_id": str(nftId),
+                "BlindBoxID": str(nftId)[:6],
+                "BlindBoxListID": str(nftId),
+                "publish_time": str(datetime.now().timestamp())
+            }
+            print(json.dumps(message))
+            rabbit.Publish('chain.v1.unblind.piya', json.dumps(message))
+        except Exception as e:
+            print(e)
 
 async def log_loop(event_filter, poll_interval):
     while True:
