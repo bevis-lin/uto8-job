@@ -16,6 +16,7 @@ docker run --env-file Unbox-VAR.env unbox
 ```env
 Web3_HTTP_Provider=xxxxxxxxxxxxx
 SalesProvider_Contract_Address=xxxxxxxxxxxxx
+Piamon_Contract_Address=xxxxxxxxxxxxx
 Contract_Owner_Address=xxxxxxxxxxxxx
 BlindBox_Id=0
 Contract_Owner_Key=xxxxxxxxxxxxx
